@@ -1,6 +1,6 @@
 {
  "version": 2,
- "seal": "9671332163565af5c4c5d1d98004813fb0b9684f565410d62197bb4cdec23526",
+ "seal": "9e10a6b10d0d109f45882c4ecaffa2bbac1588e09576a3bf6976afc7bc1fe95f",
  "dictionaries": [
   "public/dictionary/en"
  ],
@@ -182,6 +182,9 @@
   },
   "src/brain/dictionary/packReader.ts": {
    "bytes": 4086
+  },
+  "src/brain/dictionary/pickHeadword.ts": {
+   "bytes": 2375
   },
   "src/brain/dictionary/types.ts": {
    "bytes": 1903
