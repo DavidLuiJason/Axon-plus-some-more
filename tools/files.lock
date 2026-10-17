@@ -1,6 +1,6 @@
 {
  "version": 2,
- "seal": "7fa034d5e9ddde44a80600f86b2f95ba5b90d985cffba9d691f0a0928f6a31d5",
+ "seal": "943f80733df01d0dfa38ae72e462cc9e32a207f2607b873557ee166ab8446e2a",
  "dictionaries": [
   "public/dictionary/en"
  ],
@@ -185,6 +185,9 @@
   },
   "src/brain/dictionary/types.ts": {
    "bytes": 1903
+  },
+  "src/brain/dictionary/wordBook.ts": {
+   "bytes": 8052
   },
   "src/brain/dictionaryAccess.ts": {
    "bytes": 792
@@ -638,6 +641,9 @@
   },
   "tests/verdict.test.ts": {
    "bytes": 7351
+  },
+  "tests/wordBook.test.ts": {
+   "bytes": 4483
   },
   "tools/auto-unpack.sh": {
    "bytes": 3453
