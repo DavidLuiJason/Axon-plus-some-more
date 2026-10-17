@@ -10,6 +10,7 @@ import type { KnowledgeSlot } from './slot';
 
 export const DICTIONARY_PROVIDER_ID = 'english-dictionary';
 const SOURCE = 'Open English WordNet 2025';
+export const DEFAULT_MEANINGS_SHOWN = 5;
 
 /** Accept only a complete, explicit lookup phrase with a short word/phrase target. */
 function lookupTerm(message: string): string | null {
@@ -79,7 +80,7 @@ export function createDictionaryProvider(slot: KnowledgeSlot = dictionarySlot): 
         };
       }
 
-      const lines = result.senses.slice(0, 3).map((sense, index) =>
+      const lines = result.senses.slice(0, DEFAULT_MEANINGS_SHOWN).map((sense, index) =>
         `${index + 1}. ${sense.partOfSpeech}: ${sense.meaning}${sense.example ? `\n   Example: ${sense.example}` : ''}`,
       );
       return {

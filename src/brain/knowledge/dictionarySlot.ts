@@ -9,6 +9,7 @@
 import type { Dictionary } from '../dictionary';
 import { createKnowledgeSlot, type KnowledgeBackend, type KnowledgeSlot } from './slot';
 
+export const MAX_SENSES = 5;
 const SOURCE = 'Open English WordNet';
 const VERSION = '2025';
 const LICENSE = 'Creative Commons Attribution 4.0 International; derived from Princeton WordNet';
@@ -52,16 +53,23 @@ export function createDictionarySlot(openDictionary?: OpenDictionary): Knowledge
             partOfSpeech: entry.pos,
             meaning: sense.definition ?? sense.more_definitions?.[0] ?? '',
             ...(sense.examples?.[0] ? { example: sense.examples[0] } : {}),
+            ...(sense.synonyms ? { synonyms: [...sense.synonyms] } : {}),
+            ...((sense.examples || sense.more_definitions) ? { examples: [...(sense.examples ?? []), ...(sense.more_definitions ?? [])] } : {}),
           })),
         ),
-      ).filter((sense) => sense.meaning.trim().length > 0).slice(0, 3);
+      ).filter((sense) => sense.meaning.trim().length > 0).slice(0, MAX_SENSES);
 
       if (senses.length === 0) {
         const first = result.matches[0];
         const pos = first?.entries[0]?.pos ?? 'unknown';
         senses.push({ partOfSpeech: pos, meaning: 'No definition is recorded for this entry.' });
       }
-      return { status: 'found', word: result.matches[0]?.word ?? query, senses };
+      const pronunciations = [...new Set(result.matches.flatMap((match) =>
+        match.entries.flatMap((entry) => (entry.pronunciations ?? []).map((item) => item.text)),
+      ))];
+      return { status: 'found', word: result.matches[0]?.word ?? query, senses,
+        ...(pronunciations.length ? { pronunciations } : {}),
+      };
     },
 
     credits: () => ({

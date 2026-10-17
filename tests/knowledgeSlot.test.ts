@@ -51,6 +51,8 @@ async function main(): Promise<void> {
   assert(found.status === 'found' && found.senses[0]?.partOfSpeech === 'noun', 'found result carries part of speech');
   assert(found.status === 'found' && found.source === credits.source && found.version === credits.version, 'found result names source and version');
 
+  assert(found.status === 'found' && found.senses[0]?.examples === undefined, 'optional rich fields remain optional');
+
   const missing = await slot.lookup('not-a-word');
   assert(missing.status === 'not-found', 'a genuine missing word is not-found');
 

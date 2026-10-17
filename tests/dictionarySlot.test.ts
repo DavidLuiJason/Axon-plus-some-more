@@ -39,6 +39,11 @@ async function main(): Promise<void> {
   assert(bank.status === 'found' && bank.source === 'Open English WordNet' && bank.version === '2025', 'result carries source and version');
   assert(opens === 1 && fileReads > 0, 'first lookup opens the dictionary once');
 
+  assert(bank.status === 'found' && bank.senses.length <= 5, 'five-sense adapter cap is enforced');
+  assert(bank.status === 'found' && bank.senses.every((sense) => !sense.examples || Array.isArray(sense.examples)), 'rich examples are arrays');
+  assert(bank.status === 'found' && bank.senses.every((sense) => !sense.synonyms || Array.isArray(sense.synonyms)), 'rich synonyms are arrays');
+  assert(bank.status === 'found' && (!bank.pronunciations || bank.pronunciations.every((text) => typeof text === 'string')), 'pronunciations contain text only');
+
   const run = await slot.lookup('run');
   assert(run.status === 'found' && run.word === 'run', 'run is found');
   const running = await slot.lookup('running');

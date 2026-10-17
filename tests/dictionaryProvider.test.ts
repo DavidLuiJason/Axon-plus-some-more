@@ -12,7 +12,7 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import type { KnowledgeLookupResult, KnowledgeSlot } from '../src/brain/knowledge/slot';
-import { createDictionaryProvider } from '../src/brain/knowledge/dictionaryProvider';
+import { createDictionaryProvider, DEFAULT_MEANINGS_SHOWN } from '../src/brain/knowledge/dictionaryProvider';
 
 let checks = 0;
 function assert(condition: boolean, message: string): void {
@@ -35,7 +35,9 @@ function fakeSlot(mode: 'normal' | 'error' = 'normal') {
           { partOfSpeech: 'noun', meaning: 'The land alongside a river.', example: 'They sat on the bank.' },
           { partOfSpeech: 'verb', meaning: 'To rely on or count on something.' },
           { partOfSpeech: 'noun', meaning: 'A place where money is kept.' },
-          { partOfSpeech: 'noun', meaning: 'A fourth sense that must not be shown.' },
+          { partOfSpeech: 'noun', meaning: 'A fourth sense that must be shown.' },
+          { partOfSpeech: 'noun', meaning: 'A fifth sense that must be shown.' },
+          { partOfSpeech: 'noun', meaning: 'A sixth sense that must not be shown.' },
         ],
       };
     },
@@ -64,7 +66,7 @@ async function main(): Promise<void> {
   const bank = await provider.handle(ask('define bank'));
   assert(bank !== null && bank.content.includes('1. noun: The land alongside a river.'), 'reply shows numbered senses and part of speech');
   assert(bank !== null && bank.content.includes('2. verb: To rely on or count on something.'), 'reply includes the second sense');
-  assert(bank !== null && !bank.content.includes('fourth sense'), 'reply is limited to three senses');
+  assert(bank !== null && bank.content.includes('4. noun: A fourth sense') && bank.content.includes('5. noun: A fifth sense') && !bank.content.includes('sixth sense'), 'reply shows exactly five senses');
   assert(bank !== null && bank.content.includes('Example: They sat on the bank.'), 'reply can include a short example');
 
   const unknown = await provider.handle(ask('define qzxvbn'));
@@ -75,6 +77,8 @@ async function main(): Promise<void> {
   const errorReply = await createDictionaryProvider(errorFake.slot).handle(ask('define bank'));
   assert(errorReply !== null && errorReply.content.toLowerCase().includes('error'), 'lookup failure is described as an error');
   assert(errorReply !== null && !errorReply.content.toLowerCase().includes('do not have that word'), 'lookup error is not confused with not-found');
+
+  assert(DEFAULT_MEANINGS_SHOWN === 5, 'default display cap is five meanings');
 
   const mustNotTake = [
     // Existing help, text-count, and command phrases.
