@@ -68,11 +68,11 @@ async function main(): Promise<void> {
   let codeContext: MindContext = { utterance: { id: '', text: 'count the words in: git status', place: 'chat', at: 0 }, entries: [] };
   codeContext = await stages[0].run(codeContext);
   codeContext = await stages[1].run(codeContext);
-  assert(codeContext.analysis?.segments.some((segment) => segment.kind === 'material' && segment.text === 'git status'), 'code payload is represented by a material segment');
+  assert(codeContext.analysis?.segments.some((segment) => segment.kind === 'material' && segment.text === 'git status') === true, 'code payload is represented by a material segment');
   let quotedContext: MindContext = { utterance: { id: '', text: 'count words in \"leave these words alone\"', place: 'chat', at: 0 }, entries: [] };
   quotedContext = await stages[0].run(quotedContext);
   quotedContext = await stages[1].run(quotedContext);
-  assert(quotedContext.analysis?.segments.some((segment) => segment.kind === 'material' && segment.text === '\"leave these words alone\"'), 'quoted payload is represented by a material segment');
+  assert(quotedContext.analysis?.segments.some((segment) => segment.kind === 'material' && segment.text === '\"leave these words alone\"') === true, 'quoted payload is represented by a material segment');
   codeContext = await stages[2].run(codeContext);
   codeContext = await stages[3].run(codeContext);
   assert(codeContext.frame?.act === 'unknown' && codeContext.frame.confidence === 0, 'B1 meaning frame stays unknown with zero confidence');

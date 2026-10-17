@@ -48,7 +48,7 @@ function brainImports(file: string): boolean {
 function main(): void {
   const files = listSourceFiles(SRC).filter((file) => file !== BRAIN && !file.startsWith(`${BRAIN}/`));
   const found = files.filter(brainImports).map((file) => relative(process.cwd(), file).replace(/\\/g, '/')).sort();
-  const allowed = [...ALLOWED_BRAIN_IMPORTERS].sort();
+  const allowed: string[] = [...ALLOWED_BRAIN_IMPORTERS].sort();
   for (const file of found) if (!allowed.includes(file)) throw new Error(`Unapproved file imports the brain: ${file}`);
   for (const file of allowed) if (!found.includes(file)) throw new Error(`Allowed brain importer no longer imports the brain: ${file}`);
   console.log(`B1 brain boundary passed: ${found.length} allowed importers (${found.join(', ')})`);

@@ -29,8 +29,8 @@ export function createMind(options: { providers: BrainProvider[]; fallback: Brai
         context = { ...context, entries: [...context.entries, { stage: stage.id, state: 'not-built', note: `stage failed: ${message}` }] };
       }
     }
-    if (!context.reply) context = { ...context, reply: await executor.run(request) };
-    return { reply: context.reply, trace: { utterance: context.utterance, entries: context.entries } };
+    const reply = context.reply ?? (await executor.run(request));
+    return { reply, trace: { utterance: context.utterance, entries: context.entries } };
   }
 
   return {
