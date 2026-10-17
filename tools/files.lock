@@ -1,6 +1,6 @@
 {
  "version": 2,
- "seal": "943f80733df01d0dfa38ae72e462cc9e32a207f2607b873557ee166ab8446e2a",
+ "seal": "9671332163565af5c4c5d1d98004813fb0b9684f565410d62197bb4cdec23526",
  "dictionaries": [
   "public/dictionary/en"
  ],
@@ -567,6 +567,9 @@
   "tests/dictionary.test.ts": {
    "bytes": 11386
   },
+  "tests/dictionaryEnumerate.test.ts": {
+   "bytes": 2859
+  },
   "tests/dictionaryPolish.test.ts": {
    "bytes": 2359
   },
@@ -611,6 +614,9 @@
   },
   "tests/packDictionary.test.py": {
    "bytes": 496
+  },
+  "tests/pickHeadword.test.ts": {
+   "bytes": 5483
   },
   "tests/roadmapSize.test.ts": {
    "bytes": 1714
