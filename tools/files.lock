@@ -1,6 +1,6 @@
 {
  "version": 2,
- "seal": "2e42dea9cd972656b3c8437f34f64ac4a5aa89038e28b2086b491640f6bf437b",
+ "seal": "7fa034d5e9ddde44a80600f86b2f95ba5b90d985cffba9d691f0a0928f6a31d5",
  "dictionaries": [
   "public/dictionary/en"
  ],
@@ -339,6 +339,9 @@
   "src/components/ScreenGuard.tsx": {
    "bytes": 1518
   },
+  "src/components/ScreenHeader.tsx": {
+   "bytes": 4880
+  },
   "src/components/SettingsModal.tsx": {
    "bytes": 7442
   },
@@ -446,6 +449,15 @@
   },
   "src/tokens/designTokens.ts": {
    "bytes": 2345
+  },
+  "src/tools/converter/convert.ts": {
+   "bytes": 2768
+  },
+  "src/tools/converter/index.ts": {
+   "bytes": 382
+  },
+  "src/tools/converter/kinds.ts": {
+   "bytes": 1368
   },
   "src/tools/engines/create/encodeDecode.ts": {
    "bytes": 5840
@@ -608,6 +620,9 @@
   },
   "tests/tools.test.ts": {
    "bytes": 13833
+  },
+  "tests/toolsConverter.test.ts": {
+   "bytes": 5193
   },
   "tests/toolsCreate.test.ts": {
    "bytes": 10591
