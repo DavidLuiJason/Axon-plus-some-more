@@ -1,3 +1,5 @@
+import { CONVERTER_KINDS } from '../src/tools/converter';
+import { listUnits } from '../src/tools/engines/numbers/unitConvert';
 /**
  * Tools tests: the grouped Tools menu data, the Text Counter run on the kernel,
  * and the registry entries for Text Tools and the Text Counter panel.
@@ -58,8 +60,16 @@ async function main() {
   assert(toolsInSubgroup('video').map((t) => t.id).join(',') === 'video-converter,video-maker,video-downloader', 'Video holds Video Converter, Video Maker, Video Downloader');
   assert(toolsInSubgroup('audio').map((t) => t.id).join(',') === 'audio-converter,text-to-speech,voice-library,voice-cloner,speech-to-text', 'Audio holds the five sound tools');
   assert(MEDIA_SUBGROUPS.reduce((n, m) => n + toolsInSubgroup(m.id).length, 0) === mediaTools.length, 'the three choices together hold every Media tool exactly once');
-  assert(CATALOG_TOOLS.length === 62, 'still 62 tools: nothing was removed or added');
+  assert(CATALOG_TOOLS.length === 61, '61 tools after two converter entries are replaced by one');
 
+  assert(CATALOG_TOOLS.filter(t=>t.id==='converter').length===1,'exactly one Converter');
+  assert(CATALOG_TOOLS.find(t=>t.id==='converter')?.status==='coming-soon' && CATALOG_TOOLS.find(t=>t.id==='converter')?.opens===undefined,'Converter cannot open a missing screen');
+  assert(!CATALOG_TOOLS.some(t=>['Unit Converter','Number Base Converter'].includes(t.name)),'retired unit and base entries are absent');
+  assert(['Currency Converter','Text Format Converter','Data Converter','Document Converter','File Converter','Image Converter','Video Converter','Audio Converter'].every(name=>CATALOG_TOOLS.some(t=>t.name===name)),'unbuilt converter families remain');
+  for(const kind of CONVERTER_KINDS){
+    assert(kind.defaultFrom!==kind.defaultTo && kind.units.some(u=>u.id===kind.defaultFrom) && kind.units.some(u=>u.id===kind.defaultTo),`${kind.name} defaults are valid and distinct`);
+    for(const unit of kind.units)assert(kind.entry==='text'?Number.isInteger(Number(unit.id))&&Number(unit.id)>=2&&Number(unit.id)<=36:listUnits(kind.id as Parameters<typeof listUnits>[0]).some(u=>u.symbol===unit.id),`${kind.name} accepts ${unit.id}`);
+  }
   console.log('-- tools');
   assert(new Set(CATALOG_TOOLS.map((t) => t.id)).size === CATALOG_TOOLS.length, 'tool ids are unique');
   assert(
@@ -77,8 +87,8 @@ async function main() {
   assert(group('link-analyzer') === 'web-data', 'Link Analyzer is in Web and Data');
   assert(group('background-proof') === 'device-system', 'Background Proof is in Device and System');
   assert(group('ai-assistant') === 'device-system', 'AI Assistant is in Device and System');
-  assert(CATALOG_TOOLS.length === 62, 'sixty-two tools exist: the six first ones and the fifty-six planned ones (owner decision 2026-10-15: the complete menu)');
-  assert(CATALOG_TOOLS.filter((t) => t.status === 'coming-soon').length === 59, 'fifty-nine tools are planned and honestly marked coming soon');
+  assert(CATALOG_TOOLS.length === 61, '61 tools after converter consolidation');
+  assert(CATALOG_TOOLS.filter((t) => t.status === 'coming-soon').length === 58, '58 tools are honestly marked coming soon');
   assert(
     CATALOG_TOOLS.every((t) => t.name.trim() !== '' && t.description.trim() !== '' && t.description.length <= 100),
     'every tool has a name and a short description'

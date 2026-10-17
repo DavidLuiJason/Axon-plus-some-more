@@ -259,6 +259,7 @@ export const CATALOG_TOOLS: readonly CatalogTool[] = [
     groupId: 'files-convert',
     status: 'coming-soon',
   },
+  { id: 'converter', name: 'Converter', description: 'Convert between units and number bases, from one place.', groupId: 'files-convert', status: 'coming-soon' },
   {
     id: 'find-replace',
     name: 'Find and Replace',
@@ -312,20 +313,6 @@ export const CATALOG_TOOLS: readonly CatalogTool[] = [
     id: 'calculator',
     name: 'Calculator',
     description: 'Work out sums, with the steps shown.',
-    groupId: 'numbers-converters',
-    status: 'coming-soon',
-  },
-  {
-    id: 'unit-converter',
-    name: 'Unit Converter',
-    description: 'Convert length, weight, temperature, speed and more.',
-    groupId: 'numbers-converters',
-    status: 'coming-soon',
-  },
-  {
-    id: 'number-base-converter',
-    name: 'Number Base Converter',
-    description: 'Convert numbers between decimal, binary and hexadecimal.',
     groupId: 'numbers-converters',
     status: 'coming-soon',
   },
