@@ -129,6 +129,18 @@ export class Dictionary {
     };
   }
 
+  /** Sorted leaf metadata; callers receive an independent array. */
+  leafKeys(): string[] {
+    return [...this.leaves].sort();
+  }
+
+  /** Lists a verified leaf. Entries are read-only by contract; arrays are copies. */
+  async headwordsOf(leaf: string): Promise<{ word: string; entries: DictEntry[] }[]> {
+    if (!this.leaves.has(leaf)) throw new DictionaryError(`unknown leaf: ${leaf}`);
+    const shard = await this.loadCore(leaf);
+    return Object.keys(shard.data).sort().map((word) => ({ word, entries: [...shard.data[word]] }));
+  }
+
   /** The credit text that must be shown in the app. */
   attribution(): Promise<string> {
     return this.read('ATTRIBUTION.txt');
